@@ -53,8 +53,10 @@
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.library.system.Main" />
-      <module name="LiberySystem" />
+      <module name="System" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.library.system.*" />
