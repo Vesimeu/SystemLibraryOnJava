@@ -39,6 +39,7 @@ public class Library {
             Loan loan = new Loan(user, book);
             loans.add(loan);
             user.borrowBook(book); // Уменьшаем доступные книги пользователя
+            user.addAction("Книга выдана пользователю: " + user.getName());//Создаём историю
             notifyObserver("Книга выдана пользователю: " + user.getName(), user);
             return loan;
         } else {
@@ -51,11 +52,21 @@ public class Library {
     public void returnBook(Loan loan) {
         loan.setReturned(true);
         notifyObserver("Книга возвращена пользователем: " + loan.getUser().getName() , loan.getUser());
+        loan.getUser().addAction("Книга возвращена пользователем: " + loan.getUser().getName());
     }
 
     // Уведомление всех наблюдателей через бибилотику
     public void notifyObserver(String message, User user) {
         NotificationSystem.notifyThisSubscribers(message,user);
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "books=" + books +
+                ", users=" + users +
+                ", loans=" + loans +
+                '}';
     }
 
     // Получение списка всех книг в библиотеке

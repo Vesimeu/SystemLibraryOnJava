@@ -6,6 +6,9 @@ import com.library.system.loan.Loan;
 import com.library.system.user.*;
 import com.library.system.notifical.NotificationSystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         // Создаем библиотеку
@@ -27,9 +30,11 @@ public class Main {
         library.addBook(bookWithReview);
 
         // Создаем пользователей
-        Student student = new Student("Alice");
-        Professor professor = new Professor("Dr. Smith");
-        Librarian librarian = new Librarian("John Librarian");
+        User student = new Student("Студент Колян");
+        User professor = new Professor("Профессор Крокодил Гена");
+        User librarian = new Librarian("Библиотекарь Человек паук");
+        List<User> users = new ArrayList<>();
+        users.add(student);users.add(professor);users.add(librarian);
 
         // Регистрируем пользователей в библиотеке
         library.registerUser(student);
@@ -54,7 +59,15 @@ public class Main {
         library.returnBook(professorLoan);  // Профессор возвращает книгу
 
         // Отправка уведомлений
-        notificationSystem.notifySubscribers("New book available: 'Advanced Java'");
+        //notificationSystem.notifySubscribers("***Отправим уведомление всем подписчикам***'");
+
+        //История событий пользователей
+        users.stream()
+                .forEach(user -> {
+                    //Выведем историю и сохраним её.
+                    user.getActionHistory().getActions().stream().forEach(list -> System.out.println(list));
+                    user.saveActionHistory();
+                });
 
     }
 }
