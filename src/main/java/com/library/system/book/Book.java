@@ -11,5 +11,13 @@ public abstract class Book {
 
     // Метод для получения описания книги
     public abstract String getDetails();
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
 }
 

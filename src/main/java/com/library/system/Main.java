@@ -1,16 +1,20 @@
 package com.library.system;
 
+import com.library.system.aspect.ChangeTracker;
 import com.library.system.book.*;
 import com.library.system.library.Library;
 import com.library.system.loan.Loan;
 import com.library.system.user.*;
 import com.library.system.notifical.NotificationSystem;
+import com.library.system.validation.BookValidator;
+import com.library.system.validation.DuplicateBookValidator;
+import com.library.system.validation.TitleValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Создаем библиотеку
         Library library = Library.getInstance();
 
@@ -69,5 +73,24 @@ public class Main {
                     user.saveActionHistory();
                 });
 
+
+        //Паттерн на курсовую
+        // Создание цепочки обязанностей
+        BookValidator validator = new TitleValidator();
+        validator.linkWith(new DuplicateBookValidator(library));
+        // Добавление книги с проверками
+        String newBookTitle1 = "Java Programming";
+        String newBookTitle2 = "Go";
+
+        //ASSERT : Не пройдёт валидацию по названию
+        if (validator.validate(newBookTitle1)) {
+            library.addBook(new PrintedBook(newBookTitle1, "John Doe", "Shelf A3"));
+            ChangeTracker.trackChanges(library, "addBook", Book.class);
+        }
+        //ASSERT : Не пройдёт валидацию по длине
+        if (validator.validate(newBookTitle2)) {
+            library.addBook(new PrintedBook(newBookTitle2, "John Doe", "Shelf A3"));
+            ChangeTracker.trackChanges(library, "addBook", Book.class);
+        }
     }
 }
